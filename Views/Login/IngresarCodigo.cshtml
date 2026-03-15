@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Ingresar Código";
+}
+
+<h2>Recuperación de Cuenta</h2>
+
+<p>Ingrese el código de recuperación generado.</p>
+
+<form method="post" asp-action="IngresarCodigo">
+
+    <div>
+        <label>Código de recuperación</label>
+        <input type="text" name="codigo" class="form-control" required />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Validar código
+    </button>
+
+</form>
+
+@if(ViewBag.Mensaje != null)
+{
+    <p style="color:red">@ViewBag.Mensaje</p>
+}

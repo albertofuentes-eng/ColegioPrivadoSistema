@@ -1,0 +1,62 @@
+@model ColegioPrivado.Models.LoginViewModel
+
+<div class="login-container">
+
+<div class="login-card">
+
+<h2>Iniciar Sesión</h2>
+
+@if (!string.IsNullOrEmpty(Model?.Mensaje))
+{
+<div class="alert alert-danger text-center shake">
+@Model.Mensaje
+</div>
+}
+
+<form asp-action="Index" method="post">
+
+<div class="mb-3 position-relative">
+
+<label asp-for="Usuario"></label>
+
+<span class="input-icon">
+<i class="fa fa-user"></i>
+</span>
+
+<input asp-for="Usuario" class="form-control input-icon-space" placeholder="Ingrese su usuario"/>
+
+</div>
+
+<div class="mb-3 position-relative">
+
+<label asp-for="Password"></label>
+
+<span class="input-icon">
+<i class="fa fa-lock"></i>
+</span>
+
+<input asp-for="Password" type="password" id="passwordInput" class="form-control input-icon-space" placeholder="Ingrese su contraseña"/>
+
+<span class="toggle-password" onclick="togglePassword()">
+<i class="fa fa-eye"></i>
+</span>
+
+</div>
+
+<button type="submit" class="btn btn-login">
+Entrar
+</button>
+
+<div class="text-center mt-3">
+
+<a href="/Login/Registro" class="btn btn-outline-light">
+Crear cuenta
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>

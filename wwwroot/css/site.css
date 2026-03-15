@@ -1,0 +1,290 @@
+body{
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    min-height:100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* NAVBAR MODERNO */
+
+.navbar{
+    background: rgba(255,255,255,0.05) !important;
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.navbar a{
+    color:white !important;
+}
+
+/* TARJETAS MODERNAS */
+
+.card-modern{
+    background: rgba(255,255,255,0.05);
+    border-radius:15px;
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    padding:20px;
+    color:white;
+}
+
+/* BOTONES */
+
+.btn-modern{
+    background: linear-gradient(45deg,#00c6ff,#0072ff);
+    border:none;
+    border-radius:25px;
+    padding:10px 25px;
+    color:white;
+    transition:0.3s;
+}
+
+.btn-modern:hover{
+    transform:scale(1.05);
+}
+
+/* TEXTO */
+
+h1,h2,h3,h4{
+    color:white;
+}
+
+label{
+    color:white;
+}
+
+input{
+    border-radius:10px !important;
+}
+
+/* LOGIN MODERNO */
+
+.login-container{
+display:flex;
+justify-content:center;
+align-items:center;
+height:80vh;
+}
+
+.login-card{
+width:380px;
+padding:40px;
+border-radius:15px;
+background: rgba(255,255,255,0.08);
+backdrop-filter: blur(12px);
+box-shadow:0 15px 35px rgba(0,0,0,0.5);
+color:white;
+}
+
+.login-card h2{
+text-align:center;
+margin-bottom:25px;
+}
+
+.form-control{
+border-radius:10px;
+padding:10px;
+}
+
+.btn-login{
+width:100%;
+margin-top:10px;
+border-radius:25px;
+background:linear-gradient(45deg,#00c6ff,#0072ff);
+border:none;
+font-weight:bold;
+}
+
+.btn-login:hover{
+transform:scale(1.05);
+}
+
+input:focus{
+box-shadow:0 0 10px #00c6ff;
+}
+
+
+/* CARD LOGIN EFECTO VIDRIO */
+
+.login-card {
+
+background: rgba(255,255,255,0.08);
+
+backdrop-filter: blur(14px);
+
+border-radius: 18px;
+
+padding: 40px;
+
+box-shadow: 0 25px 45px rgba(0,0,0,0.4);
+
+border: 1px solid rgba(255,255,255,0.2);
+
+color: white;
+
+transition: 0.4s;
+}
+
+.login-card:hover{
+
+transform: translateY(-5px);
+
+box-shadow: 0 35px 55px rgba(0,0,0,0.5);
+
+}
+
+/* ICONOS INPUT */
+
+.input-icon {
+
+position: absolute;
+
+left: 12px;
+
+top: 38px;
+
+color: #555;
+
+font-size: 18px;
+
+}
+
+.input-icon-space {
+
+padding-left: 40px;
+
+}
+
+/* BOTON LOGIN */
+
+.btn-login{
+
+width:100%;
+
+background: linear-gradient(90deg,#00c6ff,#0072ff);
+
+border:none;
+
+padding:12px;
+
+border-radius:30px;
+
+font-weight:bold;
+
+transition: all 0.3s ease;
+
+}
+
+.btn-login:hover{
+
+transform: scale(1.05);
+
+box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+
+}
+
+.toggle-password{
+
+position:absolute;
+
+right:12px;
+
+top:38px;
+
+cursor:pointer;
+
+color:#555;
+
+}
+
+@keyframes shake{
+
+0% { transform: translateX(0); }
+
+25% { transform: translateX(-5px); }
+
+50% { transform: translateX(5px); }
+
+75% { transform: translateX(-5px); }
+
+100% { transform: translateX(0); }
+
+}
+
+.shake{
+
+animation: shake 0.3s;
+
+}
+
+.dashboard{
+
+display:flex;
+
+min-height:80vh;
+
+}
+
+.sidebar{
+
+width:220px;
+
+background:#1f2d3d;
+
+color:white;
+
+padding:20px;
+
+}
+
+.sidebar a{
+
+display:block;
+
+color:white;
+
+padding:10px;
+
+text-decoration:none;
+
+margin-top:10px;
+
+border-radius:6px;
+
+}
+
+.sidebar a:hover{
+
+background:#2f3e50;
+
+}
+
+.content{
+
+flex:1;
+
+padding:30px;
+
+}
+
+.cards{
+
+display:flex;
+
+gap:20px;
+
+margin-top:20px;
+
+}
+
+.card-dashboard{
+
+background:white;
+
+padding:30px;
+
+border-radius:10px;
+
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+
+}
