@@ -15,6 +15,27 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        var usuario = HttpContext.Session.GetString("Usuario");
+        var rol = HttpContext.Session.GetString("Rol");
+
+        if (usuario != null)
+        {
+            if (rol == "Administrador")
+            {
+                return RedirectToAction("Dashboard", "Admin");
+            }
+
+            if (rol == "Usuario Final")
+            {
+                return RedirectToAction("Dashboard", "Usuario");
+            }
+        }
+
+        return View();
+    }
+
+    public IActionResult AccesoDenegado()
+    {
         return View();
     }
 

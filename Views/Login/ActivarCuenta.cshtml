@@ -17,6 +17,13 @@
         <strong>Contraseña temporal:</strong> @ViewBag.PasswordTemporal
         <br />
         <small>Guarde esta contraseña y luego inicie sesión para cambiarla.</small>
+
+        <!-- BOTON IR A LOGIN -->
+        <div class="mt-3">
+            <a asp-controller="Login" asp-action="Index" class="btn btn-primary">
+                <i class="fa fa-sign-in-alt"></i> Ir a iniciar sesión
+            </a>
+        </div>
     </div>
 }
 
@@ -43,3 +50,4 @@ Activar cuenta
 </button>
 
 </form>
+

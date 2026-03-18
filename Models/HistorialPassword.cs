@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ColegioPrivado.Models
 {
@@ -18,6 +19,7 @@ namespace ColegioPrivado.Models
 
         public DateTime FechaCambio { get; set; }
 
+        [ForeignKey("IdUsuario")]
         public Usuario? Usuario { get; set; }
     }
 }

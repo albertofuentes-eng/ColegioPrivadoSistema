@@ -84,19 +84,34 @@ namespace ColegioPrivado.Controllers
                     return View(model);
                 }
 
+                // 🔹 PASSWORD CORRECTO
+
                 usuario.IntentosFallidos = 0;
+
+                // 🔹 Guardar acceso anterior
+                var ultimoAccesoAnterior = usuario.FechaUltimoAcceso;
+
+                HttpContext.Session.SetString(
+                    "UltimoAcceso",
+                    ultimoAccesoAnterior?.ToString("dd/MM/yyyy HH:mm") ?? "Primer acceso"
+                );
+
+                // 🔹 Actualizar nuevo acceso
                 usuario.FechaUltimoAcceso = DateTime.Now;
 
                 _context.SaveChanges();
 
+                // 🔹 Guardar datos en sesión
                 HttpContext.Session.SetString("Usuario", usuario.UsuarioNombre);
                 HttpContext.Session.SetString("Rol", usuario.Rol ?? "");
 
+                // 🔹 Primer inicio
                 if (usuario.EsPrimerInicio)
                 {
                     return RedirectToAction("CambiarPassword");
                 }
 
+                // 🔹 Redirección por rol
                 if (usuario.Rol == "Administrador")
                 {
                     return RedirectToAction("Dashboard", "Admin");
