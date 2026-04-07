@@ -221,6 +221,20 @@ namespace ColegioPrivado.Controllers
                     return View(model);
                 }
 
+                // 🚫 VALIDAR QUE NO SEA LA MISMA CONTRASEÑA ACTUAL
+                bool esMismaPassword = PasswordHelper.VerifyPassword(
+                     model.NuevaPassword,
+                     usuario.PasswordHash,
+                     usuario.Salt
+                );
+
+                if (esMismaPassword)
+                {
+                    model.Mensaje = "No puede usar la misma contraseña actual.";
+                    return View(model);
+                }
+
+
                 var historialPasswords = _context.HistorialPassword
                     .Where(h => h.IdUsuario == usuario.IdUsuario)
                     .ToList();

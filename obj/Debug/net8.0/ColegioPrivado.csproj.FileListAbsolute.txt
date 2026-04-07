@@ -15,11 +15,6 @@ C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\ColegioPrivado.R
 C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\ColegioPrivado.RazorAssemblyInfo.cs
 C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\staticwebassets\msbuild.ColegioPrivado.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\staticwebassets\msbuild.build.ColegioPrivado.props
-C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.ColegioPrivado.props
-C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.ColegioPrivado.props
-C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\scopedcss\bundle\ColegioPrivado.styles.css
 C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\scopedcss\projectbundle\ColegioPrivado.bundle.scp.css
@@ -251,3 +246,11 @@ C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\bin\Debug\net8.0\runtimes\win\lib
 C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\ColegioPrivado.sourcelink.json
+C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\bin\Debug\net8.0\ColegioPrivado.staticwebassets.endpoints.json
+C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\fuent\OneDrive\Desktop\ColegioPrivado\obj\Debug\net8.0\swae.build.ex.cache

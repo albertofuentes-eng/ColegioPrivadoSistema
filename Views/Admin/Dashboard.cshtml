@@ -1,11 +1,70 @@
-<h2 style="color:white;">Bienvenido Administrador</h2>
+@{
+    ViewData["Title"] = "Dashboard Admin";
+}
 
-<p style="color:white;">
-Este panel tiene acceso a:
-<br>
-Administración
-<br>
-Usuarios
-<br>
-Reportes
-</p>
+<div class="container mt-4">
+
+    <!-- 🔵 BIENVENIDA -->
+    <div class="mb-4 p-4 rounded" style="background-color:#1e1e2f;">
+        <h2 style="color:white;">
+            <i class="fa fa-user-shield"></i> Bienvenido Administrador
+        </h2>
+
+        <p style="color:white;">
+            Este panel tiene acceso a:
+            <br>✔ Administración
+            <br>✔ Usuarios
+            <br>✔ Reportes
+        </p>
+    </div>
+
+    <!-- 📊 DASHBOARD -->
+    <h3 class="mb-3">
+        <i class="fa fa-chart-line"></i> Dashboard del Sistema
+    </h3>
+
+    <div class="row">
+
+        <!-- Usuarios Totales -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3 shadow">
+                <div class="card-body text-center">
+                    <h5>Usuarios Registrados</h5>
+                    <h2>@ViewBag.TotalUsuarios</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activos -->
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3 shadow">
+                <div class="card-body text-center">
+                    <h5>Usuarios Activos</h5>
+                    <h2>@ViewBag.UsuariosActivos</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloqueados -->
+        <div class="col-md-3">
+            <div class="card text-white bg-danger mb-3 shadow">
+                <div class="card-body text-center">
+                    <h5>Usuarios Bloqueados</h5>
+                    <h2>@ViewBag.UsuariosBloqueados</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solicitudes -->
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3 shadow">
+                <div class="card-body text-center">
+                    <h5>Solicitudes Pendientes</h5>
+                    <h2>@ViewBag.SolicitudesPendientes</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
