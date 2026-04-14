@@ -1,0 +1,31 @@
+@model List<DevolucionCompra>
+
+<div class="container text-white">
+    <h2>Devoluciones</h2>
+
+    <a href="/Devoluciones/Create" class="btn btn-success mb-3">
+        + Nueva Devolución
+    </a>
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Compra</th>
+                <th>Fecha</th>
+                <th>Motivo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in Model)
+            {
+                <tr>
+                    <td>@d.DevolucionCompraId</td>
+                    <td>#@d.CompraId</td>
+                    <td>@d.Fecha</td>
+                    <td>@d.Motivo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

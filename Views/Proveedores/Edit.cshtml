@@ -1,0 +1,27 @@
+@model Proveedor
+
+<div class="container text-white">
+    <h2>Editar Proveedor</h2>
+
+    <form asp-action="Edit" method="post">
+
+        <input type="hidden" asp-for="ProveedorId" />
+
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input asp-for="Nombre" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Teléfono</label>
+            <input asp-for="Telefono" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Dirección</label>
+            <input asp-for="Direccion" class="form-control" />
+        </div>
+
+        <button class="btn btn-warning">Actualizar</button>
+    </form>
+</div>

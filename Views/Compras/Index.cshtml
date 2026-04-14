@@ -1,0 +1,24 @@
+@model List<Compra>
+
+<div class="container text-white">
+<a asp-action="Create" class="btn btn-success mb-3">+ Nueva Compra</a>
+<h2>Compras</h2>
+
+<table class="table table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Total</th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.CompraId</td>
+        <td>@item.Fecha</td>
+        <td>@item.Total</td>
+    </tr>
+}
+</table>
+
+</div>

@@ -1,0 +1,151 @@
+@model Compra
+
+<div class="container text-white">
+    <h2>Nueva Compra</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+    <form asp-action="Create" method="post">
+
+        <div class="mb-3">
+            <label>Proveedor</label>
+            <select name="ProveedorId" class="form-control">
+                @foreach (var p in ViewBag.Proveedores)
+                {
+                    <option value="@p.ProveedorId">@p.Nombre</option>
+                }
+            </select>
+        </div>
+
+        <hr />
+
+        <h4>Agregar Producto</h4>
+
+        <div class="row">
+            <div class="col">
+                <select id="producto" class="form-control">
+                    @foreach (var prod in ViewBag.Productos)
+                    {
+                        <option value="@prod.ProductoId" data-precio="@prod.PrecioCompra">
+                            @prod.Nombre
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="col">
+                <input type="number" id="cantidad" class="form-control" placeholder="Cantidad" />
+            </div>
+
+            <div class="col">
+                <button type="button" onclick="agregarProducto()" class="btn btn-success">
+                    Agregar
+                </button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table class="table table-dark" id="tabla">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <h4>Total: Q <span id="total">0</span></h4>
+
+        <input type="hidden" name="Total" id="totalInput" />
+
+        <input type="hidden" name="DetalleJson" id="detalleJson" />
+
+        <button type="submit" class="btn btn-primary">Guardar Compra</button>
+    </form>
+</div>
+
+<script>
+    let total = 0;
+    let detalles = [];
+
+    function agregarProducto() {
+        let select = document.getElementById("producto");
+        let cantidad = parseInt(document.getElementById("cantidad").value);
+
+        if (!cantidad || cantidad <= 0) {
+            alert("Ingrese una cantidad válida");
+            return;
+        }
+
+        // ✅ PRIMERO DEFINIR productoId CORRECTAMENTE
+        let productoId = parseInt(select.value);
+
+        // ✅ VALIDAR SI YA EXISTE
+        let existe = detalles.find(d => d.ProductoId == productoId);
+
+        if (existe) {
+            alert("Este producto ya está agregado");
+            return;
+        }
+
+        let texto = select.options[select.selectedIndex].text;
+        let precio = parseFloat(select.options[select.selectedIndex].dataset.precio);
+
+        let subtotal = cantidad * precio;
+        total += subtotal;
+
+        document.getElementById("total").innerText = total;
+        document.getElementById("totalInput").value = total;
+
+        detalles.push({
+            ProductoId: productoId,
+            Cantidad: cantidad,
+            PrecioCompra: precio
+        });
+
+        document.getElementById("detalleJson").value = JSON.stringify(detalles);
+
+        let index = detalles.length - 1;
+
+        let fila = `
+            <tr id="fila-${index}">
+                <td>${texto}</td>
+                <td>${cantidad}</td>
+                <td>${precio}</td>
+                <td>${subtotal}</td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminarProducto(${index}, ${subtotal})">
+                        X
+                    </button>
+                </td>
+            </tr>
+        `;
+
+        document.querySelector("#tabla tbody").innerHTML += fila;
+    }
+
+    function eliminarProducto(index, subtotal) {
+        detalles.splice(index, 1);
+
+        total -= subtotal;
+        document.getElementById("total").innerText = total;
+        document.getElementById("totalInput").value = total;
+
+        document.getElementById("detalleJson").value = JSON.stringify(detalles);
+
+        document.getElementById(`fila-${index}`).remove();
+    }
+</script>

@@ -15,5 +15,34 @@ namespace ColegioPrivado.Data
         public DbSet<SolicitudesAcceso> SolicitudesAccesos { get; set; }
         public DbSet<HistorialPassword> HistorialPassword { get; set; }
 
+        public DbSet<Producto> Productos { get; set; }
+
+
+        public DbSet<Proveedor> Proveedores { get; set; }
+        public DbSet<Compra> Compras { get; set; }
+        public DbSet<DetalleCompra> DetalleCompras { get; set; }
+
+        public DbSet<DevolucionCompra> DevolucionCompras { get; set; }
+        public DbSet<DetalleDevolucion> DetalleDevoluciones { get; set; }
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    base.OnModelCreating(modelBuilder);
+
+    modelBuilder.Entity<Compra>()
+        .Property(c => c.Total)
+        .HasColumnType("decimal(18,2)");
+
+    modelBuilder.Entity<DetalleCompra>()
+        .Property(d => d.PrecioCompra)
+        .HasColumnType("decimal(18,2)");
+
+    modelBuilder.Entity<Producto>()
+        .Property(p => p.PrecioCompra)
+        .HasColumnType("decimal(18,2)");
+
+    modelBuilder.Entity<Producto>()
+        .Property(p => p.PrecioVenta)
+        .HasColumnType("decimal(18,2)");
+}
     }
 }

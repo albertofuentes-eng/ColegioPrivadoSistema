@@ -1,0 +1,56 @@
+@model List<Producto>
+
+<div class="container text-white">
+    <h2>Productos</h2>
+
+    <a href="/Producto/Create" class="btn btn-success mb-3">
+        + Nuevo Producto
+    </a>
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio Compra</th>
+                <th>Precio Venta</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.Nombre</td>
+                    <td>Q @p.PrecioCompra</td>
+                    <td>Q @p.PrecioVenta</td>
+                    <td>
+                        <span class="badge bg-info">
+                            @p.Stock
+                        </span>
+                    </td>
+                    <td>
+                        @if (p.Activo)
+                        {
+                            <span class="text-success">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Inactivo</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="/Producto/Edit/@p.ProductoId" class="btn btn-warning btn-sm">
+    Editar
+</a>
+
+<a href="/Producto/Delete/@p.ProductoId" class="btn btn-danger btn-sm">
+    Eliminar
+</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
