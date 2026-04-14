@@ -30,14 +30,14 @@
             <input type="text" name="Motivo" class="form-control" />
         </div>
 
-        <!-- 🔥 AQUÍ VA LO NUEVO -->
-    <div class="mb-3">
-        <label>Tipo de devolución</label>
-        <select name="EsCredito" class="form-control">
-            <option value="false">Reposición (producto)</option>
-            <option value="true">Nota de crédito</option>
-        </select>
-    </div>
+        <!-- 🔥 TIPO DEVOLUCIÓN -->
+        <div class="mb-3">
+            <label>Tipo de devolución</label>
+            <select name="EsCredito" class="form-control">
+                <option value="false">Reposición (producto)</option>
+                <option value="true">Nota de crédito</option>
+            </select>
+        </div>
 
         <hr />
 
@@ -57,6 +57,12 @@
                 <input type="number" id="cantidad" class="form-control" />
             </div>
 
+            <!-- 🔥 NUEVO: DAÑADO -->
+            <div class="col">
+                <label>Dañado</label><br />
+                <input type="checkbox" id="danado" />
+            </div>
+
             <div class="col">
                 <button type="button" onclick="agregar()" class="btn btn-success">
                     Agregar
@@ -69,6 +75,7 @@
                 <tr>
                     <th>Producto</th>
                     <th>Cantidad</th>
+                    <th>Dañado</th>
                 </tr>
             </thead>
             <tbody id="tabla"></tbody>
@@ -88,10 +95,12 @@
         let productoId = parseInt(select.value);
         let nombre = select.options[select.selectedIndex].text;
         let cantidad = parseInt(document.getElementById("cantidad").value);
+        let danado = document.getElementById("danado").checked;
 
         detalles.push({
             ProductoId: productoId,
-            Cantidad: cantidad
+            Cantidad: cantidad,
+            Danado: danado
         });
 
         document.getElementById("detalleJson").value = JSON.stringify(detalles);
@@ -100,6 +109,7 @@
             <tr>
                 <td>${nombre}</td>
                 <td>${cantidad}</td>
+                <td>${danado ? "Sí" : "No"}</td>
             </tr>
         `;
 
