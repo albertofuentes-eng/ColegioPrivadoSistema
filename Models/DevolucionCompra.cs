@@ -14,4 +14,6 @@ public class DevolucionCompra
     public List<DetalleDevolucion> Detalles { get; set; } = new();
 
     public bool EsCredito { get; set; } = false;
+
+    public decimal TotalCredito { get; set; }
 }

@@ -139,9 +139,40 @@ public IActionResult Create(DevolucionCompra devolucion, string DetalleJson)
             }
         }
 
-        // 🔥 GUARDAR
-        _context.DevolucionCompras.Add(devolucion);
-        _context.SaveChanges();
+
+//////////////////////////////////////////////////////
+// 🔥 DEBUG + CALCULAR CRÉDITO
+//////////////////////////////////////////////////////
+
+Console.WriteLine("EsCredito: " + devolucion.EsCredito);
+
+if (devolucion.EsCredito == true)
+{
+    decimal totalCredito = 0;
+
+    foreach (var item in detalles)
+    {
+        var producto = _context.Productos.Find(item.ProductoId);
+
+        if (producto != null)
+        {
+            totalCredito += producto.PrecioCompra * item.Cantidad;
+        }
+    }
+
+    devolucion.TotalCredito = totalCredito;
+
+    Console.WriteLine("TOTAL CREDITO: " + totalCredito);
+}
+
+//////////////////////////////////////////////////////
+// 🔥 AHORA SÍ GUARDAR
+//////////////////////////////////////////////////////
+
+_context.DevolucionCompras.Add(devolucion);
+_context.SaveChanges();
+
+
 
         foreach (var item in detalles)
         {
