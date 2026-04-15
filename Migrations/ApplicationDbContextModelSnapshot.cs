@@ -47,7 +47,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Estudiantes");
+                    b.ToTable("Estudiantes", (string)null);
                 });
 
             modelBuilder.Entity("ColegioPrivado.Models.HistorialPassword", b =>
@@ -80,7 +80,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasIndex("IdUsuario");
 
-                    b.ToTable("HistorialPassword");
+                    b.ToTable("HistorialPassword", (string)null);
                 });
 
             modelBuilder.Entity("ColegioPrivado.Models.SolicitudesAcceso", b =>
@@ -108,7 +108,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasKey("IdSolicitud");
 
-                    b.ToTable("SolicitudesAcceso");
+                    b.ToTable("SolicitudesAcceso", (string)null);
                 });
 
             modelBuilder.Entity("ColegioPrivado.Models.Usuario", b =>
@@ -160,7 +160,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasKey("IdUsuario");
 
-                    b.ToTable("Usuarios");
+                    b.ToTable("Usuarios", (string)null);
                 });
 
             modelBuilder.Entity("Compra", b =>
@@ -184,7 +184,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasIndex("ProveedorId");
 
-                    b.ToTable("Compra");
+                    b.ToTable("Compra", (string)null);
                 });
 
             modelBuilder.Entity("DetalleCompra", b =>
@@ -213,7 +213,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasIndex("ProductoId");
 
-                    b.ToTable("DetalleCompra");
+                    b.ToTable("DetalleCompra", (string)null);
                 });
 
             modelBuilder.Entity("DetalleDevolucion", b =>
@@ -240,7 +240,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasIndex("DevolucionCompraId");
 
-                    b.ToTable("DetalleDevoluciones");
+                    b.ToTable("DetalleDevoluciones", (string)null);
                 });
 
             modelBuilder.Entity("DevolucionCompra", b =>
@@ -269,7 +269,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasKey("DevolucionCompraId");
 
-                    b.ToTable("DevolucionCompras");
+                    b.ToTable("DevolucionCompras", (string)null);
                 });
 
             modelBuilder.Entity("Producto", b =>
@@ -305,7 +305,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasKey("ProductoId");
 
-                    b.ToTable("Producto");
+                    b.ToTable("Producto", (string)null);
                 });
 
             modelBuilder.Entity("Proveedor", b =>
@@ -338,7 +338,7 @@ namespace ColegioPrivado.Migrations
 
                     b.HasKey("ProveedorId");
 
-                    b.ToTable("Proveedor");
+                    b.ToTable("Proveedor", (string)null);
                 });
 
             modelBuilder.Entity("ColegioPrivado.Models.HistorialPassword", b =>

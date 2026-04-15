@@ -15,4 +15,6 @@ public class Producto
 
     public bool Activo { get; set; }
     public bool EnOferta { get; set; } = false;
+
+    public int EmpresaId { get; set; }
 }

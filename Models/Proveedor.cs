@@ -21,4 +21,6 @@ public class Proveedor
     public bool Activo { get; set; } = true;
 
     public decimal CreditoDisponible { get; set; } = 0;
+
+    public int EmpresaId { get; set; }
 }

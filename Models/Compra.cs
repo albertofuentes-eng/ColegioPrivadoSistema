@@ -13,4 +13,6 @@ public class Compra
 
     public Proveedor? Proveedor { get; set; }
     public List<DetalleCompra>? Detalles { get; set; }
+
+    public int EmpresaId { get; set; }
 }
