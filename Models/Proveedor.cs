@@ -19,4 +19,6 @@ public class Proveedor
     public string Direccion { get; set; } = string.Empty;
 
     public bool Activo { get; set; } = true;
+
+    public decimal CreditoDisponible { get; set; } = 0;
 }

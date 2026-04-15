@@ -47,6 +47,11 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
     modelBuilder.Entity<DevolucionCompra>()
         .Property(d => d.TotalCredito)
         .HasColumnType("decimal(18,2)");
+
+    modelBuilder.Entity<Proveedor>()
+    .Property(p => p.CreditoDisponible)
+    .HasColumnType("decimal(18,2)");
+
 }
     }
 }
