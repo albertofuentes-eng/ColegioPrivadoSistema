@@ -1,0 +1,37 @@
+<h2>Empresas Activas</h2>
+
+<a href="/Empresas/Create">Nueva Empresa</a>
+
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Ubicación</th>
+        <th>Acción</th>
+    </tr>
+
+@foreach (var e in ViewBag.Activas)
+{
+    <tr>
+        <td>@e.Nombre</td>
+        <td>@e.Ubicacion</td>
+        <td>
+            <a href="/Empresas/Toggle/@e.EmpresaId">Desactivar</a>
+        </td>
+    </tr>
+}
+</table>
+
+<h2>Empresas Inactivas</h2>
+
+<table>
+@foreach (var e in ViewBag.Inactivas)
+{
+    <tr>
+        <td>@e.Nombre</td>
+        <td>@e.Ubicacion</td>
+        <td>
+            <a href="/Empresas/Toggle/@e.EmpresaId">Activar</a>
+        </td>
+    </tr>
+}
+</table>

@@ -1,11 +1,11 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>@ViewData["Title"] - ColegioPrivado</title>
+<title>@ViewData["Title"] - BoutiqueGT</title>
 
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -28,7 +28,7 @@
 <div class="container-fluid">
 
 <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-<i class="fa fa-school"></i> ColegioPrivado
+<i class="fa fa-shirt"></i> BoutiqueGT
 </a>
 
 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
@@ -44,6 +44,31 @@
 <i class="fa fa-home"></i> Inicio
 </a>
 </li>
+
+@{
+    var rol = Context.Session.GetString("Rol");
+}
+
+@if (!string.IsNullOrEmpty(rol) && rol.Contains("Admin"))
+{
+    <li class="nav-item">
+        <a class="nav-link" href="/Compras">
+            <i class="fa fa-cart-shopping"></i> Compras
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/Devoluciones">
+            <i class="fa fa-rotate-left"></i> Devoluciones
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/Empresas">
+            <i class="fa fa-building"></i> Empresas
+        </a>
+    </li>
+}
 
 @if (Context.Session.GetString("Usuario") != null)
 {
@@ -115,7 +140,7 @@
 
 <div class="container">
 
-&copy; 2026 - ColegioPrivado
+&copy; 2026 - BoutiqueGT
 
 </div>
 
@@ -133,4 +158,3 @@
 </body>
 
 </html>
-

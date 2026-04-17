@@ -104,6 +104,7 @@ namespace ColegioPrivado.Controllers
                 // 🔹 Guardar datos en sesión
                 HttpContext.Session.SetString("Usuario", usuario.UsuarioNombre);
                 HttpContext.Session.SetString("Rol", usuario.Rol ?? "");
+                HttpContext.Session.SetInt32("EmpresaId", 1);
 
                 // 🔹 Primer inicio
                 if (usuario.EsPrimerInicio)

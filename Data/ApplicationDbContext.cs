@@ -23,9 +23,15 @@ namespace ColegioPrivado.Data
         public DbSet<DevolucionCompra> DevolucionCompras { get; set; }
         public DbSet<DetalleDevolucion> DetalleDevoluciones { get; set; }
 
+        public DbSet<Empresa> Empresas { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<DetalleCompra>()
+                .Property(d => d.PrecioUnitario)
+                .HasPrecision(18, 2);
 
             // 🔹 DECIMALES
             modelBuilder.Entity<Compra>()

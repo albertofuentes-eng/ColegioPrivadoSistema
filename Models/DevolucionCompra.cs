@@ -16,4 +16,5 @@ public class DevolucionCompra
     public bool EsCredito { get; set; } = false;
 
     public decimal TotalCredito { get; set; }
+    public int EmpresaId { get; set; }
 }

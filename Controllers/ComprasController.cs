@@ -16,124 +16,147 @@ public class ComprasController : Controller
     // 📋 LISTADO
     public IActionResult Index()
     {
-        var compras = _context.Compras.ToList();
+        var rol = HttpContext.Session.GetString("Rol") ?? "";
+
+        if (!rol.Contains("Admin"))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        int empresaId = HttpContext.Session.GetInt32("EmpresaId") ?? 1;
+
+        var compras = _context.Compras
+            .Where(c => c.EmpresaId == empresaId)
+            .ToList();
+
         return View(compras);
     }
 
     // 🟢 GET: CREAR
     public IActionResult Create()
     {
-        ViewBag.Proveedores = _context.Proveedores.ToList();
-        ViewBag.Productos = _context.Productos.ToList();
+        var rol = HttpContext.Session.GetString("Rol") ?? "";
+
+        if (!rol.Contains("Admin"))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        int empresaId = HttpContext.Session.GetInt32("EmpresaId") ?? 1;
+
+        ViewBag.Proveedores = _context.Proveedores
+            .Where(p => p.EmpresaId == empresaId)
+            .ToList();
+
+        ViewBag.Productos = _context.Productos
+            .Where(p => p.EmpresaId == empresaId)
+            .ToList();
 
         return View();
     }
 
     [HttpPost]
-public IActionResult Create(Compra compra, string DetalleJson)
-{
-    if (string.IsNullOrEmpty(DetalleJson))
+    public IActionResult Create(Compra compra, string DetalleJson)
     {
-        ViewBag.Proveedores = _context.Proveedores.ToList();
-        ViewBag.Productos = _context.Productos.ToList();
+        var rol = HttpContext.Session.GetString("Rol") ?? "";
 
-        ModelState.AddModelError("", "Debes agregar al menos un producto");
-
-        return View(compra);
-    }
-
-    using var transaction = _context.Database.BeginTransaction();
-
-    try
-    {
-        compra.Fecha = DateTime.Now;
-
-        var detalles = JsonSerializer.Deserialize<List<DetalleCompra>>(DetalleJson);
-
-        if (detalles == null || detalles.Count == 0)
+        if (!rol.Contains("Admin"))
         {
-            ModelState.AddModelError("", "Debe agregar al menos un producto a la compra");
+            return RedirectToAction("Index", "Home");
+        }
 
-            ViewBag.Proveedores = _context.Proveedores.ToList();
-            ViewBag.Productos = _context.Productos.ToList();
+        int empresaId = HttpContext.Session.GetInt32("EmpresaId") ?? 1;
 
+        if (string.IsNullOrEmpty(DetalleJson))
+        {
+            ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+            ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
+
+            ModelState.AddModelError("", "Debes agregar al menos un producto");
             return View(compra);
         }
 
-        //////////////////////////////////////////////////////
-        // 🔥 CALCULAR TOTAL DE LA COMPRA
-        //////////////////////////////////////////////////////
-        decimal total = 0;
+        using var transaction = _context.Database.BeginTransaction();
 
-        foreach (var item in detalles)
+        try
         {
-            var producto = _context.Productos.Find(item.ProductoId);
+            compra.Fecha = DateTime.Now;
+            compra.EmpresaId = empresaId;
 
-            if (producto != null)
+            var detalles = JsonSerializer.Deserialize<List<DetalleCompra>>(DetalleJson);
+
+            if (detalles == null || detalles.Count == 0)
             {
-                total += producto.PrecioCompra * item.Cantidad;
+                ModelState.AddModelError("", "Debe agregar al menos un producto a la compra");
+
+                ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+                ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
+
+                return View(compra);
             }
-        }
 
-        compra.Total = total;
+            decimal total = 0;
 
-        //////////////////////////////////////////////////////
-        // 🔥 APLICAR CRÉDITO DEL PROVEEDOR (AQUÍ VA LO NUEVO)
-        //////////////////////////////////////////////////////
-        var proveedor = _context.Proveedores.Find(compra.ProveedorId);
-
-        if (proveedor != null && proveedor.CreditoDisponible > 0)
-        {
-            if (proveedor.CreditoDisponible >= compra.Total)
-            {
-                proveedor.CreditoDisponible -= compra.Total;
-                compra.Total = 0;
-            }
-            else
-            {
-                compra.Total -= proveedor.CreditoDisponible;
-                proveedor.CreditoDisponible = 0;
-            }
-        }
-
-        //////////////////////////////////////////////////////
-        // 🔥 GUARDAR COMPRA
-        //////////////////////////////////////////////////////
-        _context.Compras.Add(compra);
-        _context.SaveChanges();
-
-        //////////////////////////////////////////////////////
-        // 🔥 GUARDAR DETALLES + STOCK
-        //////////////////////////////////////////////////////
-        foreach (var item in detalles)
-        {
-            item.CompraId = compra.CompraId;
-
-            _context.DetalleCompras.Add(item);
-
-            var producto = _context.Productos.Find(item.ProductoId);
-
-            if (producto != null)
-            {
-                producto.Stock += item.Cantidad;
-            }
-        }
-
-        _context.SaveChanges();
-        transaction.Commit();
-
-        return RedirectToAction("Index");
-    }
-    catch (Exception ex)
+foreach (var item in detalles)
+{
+    if (item.PrecioUnitario <= 0)
     {
-        transaction.Rollback();
-
-        ViewBag.Proveedores = _context.Proveedores.ToList();
-        ViewBag.Productos = _context.Productos.ToList();
-
-        ModelState.AddModelError("", ex.Message);
-
+        ModelState.AddModelError("", "Precio unitario inválido");
+        ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+        ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
         return View(compra);
     }
+
+    total += item.PrecioUnitario * item.Cantidad;
 }
+
+            compra.Total = total;
+
+            var proveedor = _context.Proveedores.Find(compra.ProveedorId);
+
+            if (proveedor != null && proveedor.CreditoDisponible > 0)
+            {
+                if (proveedor.CreditoDisponible >= compra.Total)
+                {
+                    proveedor.CreditoDisponible -= compra.Total;
+                    compra.Total = 0;
+                }
+                else
+                {
+                    compra.Total -= proveedor.CreditoDisponible;
+                    proveedor.CreditoDisponible = 0;
+                }
+            }
+
+            _context.Compras.Add(compra);
+            _context.SaveChanges();
+
+            foreach (var item in detalles)
+            {
+                item.CompraId = compra.CompraId;
+                _context.DetalleCompras.Add(item);
+
+                var producto = _context.Productos.Find(item.ProductoId);
+                if (producto != null)
+                {
+                    producto.Stock += item.Cantidad;
+                }
+            }
+
+            _context.SaveChanges();
+            transaction.Commit();
+
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+
+            ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+            ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
+
+            ModelState.AddModelError("", ex.Message);
+            return View(compra);
+        }
+    }
 }

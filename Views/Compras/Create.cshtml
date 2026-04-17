@@ -34,7 +34,7 @@
                 <select id="producto" class="form-control">
                     @foreach (var prod in ViewBag.Productos)
                     {
-                        <option value="@prod.ProductoId" data-precio="@prod.PrecioCompra">
+                        <option value="@prod.ProductoId">
                             @prod.Nombre
                         </option>
                     }
@@ -43,6 +43,11 @@
 
             <div class="col">
                 <input type="number" id="cantidad" class="form-control" placeholder="Cantidad" />
+            </div>
+
+            <!-- 🔥 NUEVO INPUT -->
+            <div class="col">
+                <input type="number" step="0.01" id="precioUnitario" class="form-control" placeholder="Precio unitario" />
             </div>
 
             <div class="col">
@@ -70,7 +75,6 @@
         <h4>Total: Q <span id="total">0</span></h4>
 
         <input type="hidden" name="Total" id="totalInput" />
-
         <input type="hidden" name="DetalleJson" id="detalleJson" />
 
         <button type="submit" class="btn btn-primary">Guardar Compra</button>
@@ -84,16 +88,20 @@
     function agregarProducto() {
         let select = document.getElementById("producto");
         let cantidad = parseInt(document.getElementById("cantidad").value);
+        let precioUnitario = parseFloat(document.getElementById("precioUnitario").value);
 
         if (!cantidad || cantidad <= 0) {
             alert("Ingrese una cantidad válida");
             return;
         }
 
-        // ✅ PRIMERO DEFINIR productoId CORRECTAMENTE
+        if (!precioUnitario || precioUnitario <= 0) {
+            alert("Ingrese un precio válido");
+            return;
+        }
+
         let productoId = parseInt(select.value);
 
-        // ✅ VALIDAR SI YA EXISTE
         let existe = detalles.find(d => d.ProductoId == productoId);
 
         if (existe) {
@@ -102,9 +110,8 @@
         }
 
         let texto = select.options[select.selectedIndex].text;
-        let precio = parseFloat(select.options[select.selectedIndex].dataset.precio);
 
-        let subtotal = cantidad * precio;
+        let subtotal = cantidad * precioUnitario;
         total += subtotal;
 
         document.getElementById("total").innerText = total;
@@ -113,7 +120,7 @@
         detalles.push({
             ProductoId: productoId,
             Cantidad: cantidad,
-            PrecioCompra: precio
+            PrecioUnitario: precioUnitario // 🔥 IMPORTANTE
         });
 
         document.getElementById("detalleJson").value = JSON.stringify(detalles);
@@ -124,7 +131,7 @@
             <tr id="fila-${index}">
                 <td>${texto}</td>
                 <td>${cantidad}</td>
-                <td>${precio}</td>
+                <td>${precioUnitario}</td>
                 <td>${subtotal}</td>
                 <td>
                     <button type="button" class="btn btn-danger btn-sm" onclick="eliminarProducto(${index}, ${subtotal})">

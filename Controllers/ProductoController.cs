@@ -12,25 +12,31 @@ public class ProductoController : Controller
         _context = context;
     }
 
-    // 🔹 LISTAR
     public IActionResult Index()
     {
-        var productos = _context.Productos.ToList();
+        int empresaId = 1;
+
+        var productos = _context.Productos
+            .Where(p => p.EmpresaId == empresaId)
+            .ToList();
+
         return View(productos);
     }
 
-    // 🔹 GET: CREAR
     public IActionResult Create()
     {
         return View();
     }
 
-    // 🔹 POST: CREAR
     [HttpPost]
     public IActionResult Create(Producto producto)
     {
+        int empresaId = 1;
+
         if (!ModelState.IsValid)
             return View(producto);
+
+        producto.EmpresaId = empresaId;
 
         _context.Productos.Add(producto);
         _context.SaveChanges();
@@ -38,7 +44,6 @@ public class ProductoController : Controller
         return RedirectToAction("Index");
     }
 
-    // 🔹 GET: EDITAR
     public IActionResult Edit(int id)
     {
         var producto = _context.Productos.Find(id);
@@ -47,7 +52,6 @@ public class ProductoController : Controller
         return View(producto);
     }
 
-    // 🔹 POST: EDITAR
     [HttpPost]
     public IActionResult Edit(Producto producto)
     {
@@ -60,7 +64,6 @@ public class ProductoController : Controller
         return RedirectToAction("Index");
     }
 
-    // 🔹 ELIMINAR
     public IActionResult Delete(int id)
     {
         var producto = _context.Productos.Find(id);
