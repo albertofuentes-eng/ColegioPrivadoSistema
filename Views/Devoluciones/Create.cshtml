@@ -13,6 +13,17 @@
     </div>
 }
 
+    <!-- 🆕 INFORMACIÓN IMPORTANTE -->
+    <div class="alert alert-info mb-4">
+        <h5>⚠️ Reglas de Devolución</h5>
+        <ul>
+            <li>✅ Solo se pueden devolver productos NO comprados en oferta</li>
+            <li>✅ Devolución normal: El producto DEBE estar marcado como <strong>dañado</strong></li>
+            <li>✅ Devolución por crédito: No requiere estar marcado como dañado (nota de crédito)</li>
+            <li>✅ Límite: 7 días desde la compra</li>
+        </ul>
+    </div>
+
     <form asp-action="Create" method="post">
 
         <div class="mb-3">
@@ -32,11 +43,17 @@
 
         <!-- 🔥 TIPO DEVOLUCIÓN -->
         <div class="mb-3">
-            <label>Tipo de devolución</label>
-            <select name="EsCredito" class="form-control">
-                <option value="false">Reposición (producto)</option>
-                <option value="true">Nota de crédito</option>
-            </select>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="esCredito" name="EsCredito" value="true">
+                <label class="form-check-label" for="esCredito">
+                    Es nota de crédito
+                </label>
+            </div>
+        </div>
+
+        <div class="mb-3" id="totalCreditoDiv" style="display: none;">
+            <label>Total de Crédito</label>
+            <input type="number" step="0.01" name="TotalCredito" id="totalCredito" class="form-control" value="0" />
         </div>
 
         <hr />
@@ -89,6 +106,19 @@
 
 <script>
     let detalles = [];
+
+    function toggleTotalCredito() {
+        let esCredito = document.getElementById("esCredito").checked;
+        let div = document.getElementById("totalCreditoDiv");
+        if (esCredito) {
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+            document.getElementById("totalCredito").value = "0";
+        }
+    }
+
+    document.getElementById("esCredito").addEventListener("change", toggleTotalCredito);
 
     function agregar() {
         let select = document.getElementById("producto");

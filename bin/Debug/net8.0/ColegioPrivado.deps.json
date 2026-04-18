@@ -10,7 +10,8 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": "8.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.0"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.0",
+          "Rotativa.AspNetCore": "1.4.0"
         },
         "runtime": {
           "ColegioPrivado.dll": {}
@@ -1503,6 +1504,14 @@
           }
         }
       },
+      "Rotativa.AspNetCore/1.4.0": {
+        "runtime": {
+          "lib/net8.0/Rotativa.AspNetCore.dll": {
+            "assemblyVersion": "1.4.0.0",
+            "fileVersion": "1.4.0.0"
+          }
+        }
+      },
       "System.CodeDom/5.0.0": {
         "runtime": {
           "lib/netstandard2.0/System.CodeDom.dll": {
@@ -2437,6 +2446,13 @@
       "sha512": "sha512-T/igBDLXCd+pH3YTWgGVNvYSOwbwaT30NyyM9ONjvlHlmaUjKBJpr9kH0AeL+Ado4EJsBhU3qxXVc6lyrpRcMw==",
       "path": "nuget.versioning/6.3.1",
       "hashPath": "nuget.versioning.6.3.1.nupkg.sha512"
+    },
+    "Rotativa.AspNetCore/1.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zn0KgqCQqiTuNPYgeqrIJxXafjJUfDJBcUJIhAV5NgWSCX3DOEeg339zMJTbzcCyoJgGPL5LrG+IKZ3k8/Uk9Q==",
+      "path": "rotativa.aspnetcore/1.4.0",
+      "hashPath": "rotativa.aspnetcore.1.4.0.nupkg.sha512"
     },
     "System.CodeDom/5.0.0": {
       "type": "package",

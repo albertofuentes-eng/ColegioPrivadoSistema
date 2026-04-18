@@ -1,0 +1,40 @@
+@model IEnumerable<Factura>
+
+<div class="container text-white">
+    <h2>Facturas</h2>
+
+    <p>
+        <a href="/Facturas/Create" class="btn btn-primary">Generar Factura</a>
+    </p>
+
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Compra</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var factura in Model)
+            {
+                <tr>
+                    <td>@factura.NumeroFactura</td>
+                    <td>@factura.Fecha.ToString("dd/MM/yyyy")</td>
+                    <td>Q @factura.Total</td>
+                    <td>@factura.CompraId</td>
+                    <td>
+                        <a href="/Facturas/VerFactura/@factura.FacturaId" class="btn btn-sm btn-primary">
+                            <i class="fa fa-eye"></i> Ver Factura
+                        </a>
+                        <a href="/Facturas/ExportarPdf/@factura.FacturaId" class="btn btn-sm btn-success" target="_blank">
+                            <i class="fa fa-file-pdf"></i> PDF
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

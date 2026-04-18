@@ -1,0 +1,39 @@
+@model Factura
+
+<div class="container text-white">
+    <div class="invoice-box bg-dark text-white p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1>Factura</h1>
+                <p class="mb-0">BoutiqueGT</p>
+            </div>
+            <button class="btn btn-outline-light" onclick="window.print()">
+                <i class="fa fa-print"></i> Imprimir
+            </button>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <h5>Factura</h5>
+                <p><strong>Número:</strong> @Model.NumeroFactura</p>
+                <p><strong>Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy")</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <h5>Total</h5>
+                <p class="display-6">Q @Model.Total.ToString("N2")</p>
+            </div>
+        </div>
+
+        <hr class="border-light" />
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <p><strong>ID de Factura:</strong> @Model.FacturaId</p>
+                <p><strong>ID de Compra:</strong> @Model.CompraId</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p><strong>ID de Empresa:</strong> @Model.EmpresaId</p>
+            </div>
+        </div>
+    </div>
+</div>

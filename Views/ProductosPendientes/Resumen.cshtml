@@ -1,0 +1,89 @@
+@{
+    ViewData["Title"] = "Resumen - Productos Pendientes";
+}
+
+<div class="container mt-4 text-white">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>📊 Resumen de Productos Pendientes</h2>
+            <p class="text-muted">Estado general del flujo de compras y devoluciones</p>
+        </div>
+    </div>
+
+    <!-- CARDS DE RESUMEN -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <h5 class="card-title">⏳ Pendiente</h5>
+                    <p class="card-text fs-4">@Model?.RecuentoPendiente productos</p>
+                    <p class="text-muted">@Model?.TotalPendiente unidades</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">✅ Procesado</h5>
+                    <p class="card-text fs-4">@Model?.RecuentoProcesado productos</p>
+                    <p class="text-muted">@Model?.TotalProcesado unidades</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">❌ Cancelado</h5>
+                    <p class="card-text fs-4">@Model?.RecuentoCancelado productos</p>
+                    <p class="text-muted">@Model?.TotalCancelado unidades</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFORMACIÓN GENERAL -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bg-dark border-info">
+                <div class="card-header bg-info">
+                    <h5 class="mb-0">📈 Estadísticas</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-dark table-sm">
+                        <tr>
+                            <td><strong>Total de Registros:</strong></td>
+                            <td>@((Model?.RecuentoPendiente ?? 0) + (Model?.RecuentoProcesado ?? 0) + (Model?.RecuentoCancelado ?? 0))</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total de Unidades:</strong></td>
+                            <td>@((Model?.TotalPendiente ?? 0) + (Model?.TotalProcesado ?? 0) + (Model?.TotalCancelado ?? 0)) unidades</td>
+                        </tr>
+                        <tr>
+                            <td><strong>% Procesado:</strong></td>
+                            <td>
+                                @{
+                                    var total = (Model?.RecuentoPendiente ?? 0) + (Model?.RecuentoProcesado ?? 0) + (Model?.RecuentoCancelado ?? 0);
+                                    var porcentaje = total > 0 ? ((Model?.RecuentoProcesado ?? 0) * 100 / total) : 0;
+                                }
+                                @porcentaje.ToString("F1")%
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTONES DE NAVEGACIÓN -->
+    <div class="mt-4">
+        <a href="@Url.Action("Index", new { estado = "Pendiente" })" class="btn btn-warning">
+            Ver Pendientes
+        </a>
+        <a href="@Url.Action("Index", new { estado = "Procesado" })" class="btn btn-success">
+            Ver Procesados
+        </a>
+        <a href="@Url.Action("Index", new { estado = "Cancelado" })" class="btn btn-danger">
+            Ver Cancelados
+        </a>
+    </div>
+</div>

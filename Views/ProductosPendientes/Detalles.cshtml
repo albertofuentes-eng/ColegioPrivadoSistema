@@ -1,0 +1,141 @@
+@model ProductoPendiente
+
+@{
+    ViewData["Title"] = "Detalles - Productos Pendientes";
+}
+
+<div class="container mt-4 text-white">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <a href="@Url.Action("Index")" class="btn btn-secondary btn-sm">← Volver</a>
+            <h2>📦 Detalles del Producto Pendiente</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card bg-dark border-info">
+                <div class="card-header bg-info">
+                    <h5 class="mb-0">Información del Producto</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-dark table-sm">
+                        <tr>
+                            <td><strong>ID Registro:</strong></td>
+                            <td>#@Model.ProductoPendienteId</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Producto:</strong></td>
+                            <td>@Model.Producto?.Nombre ?? "N/A"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compra Asociada:</strong></td>
+                            <td><a href="#">#@Model.CompraId</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cantidad Total:</strong></td>
+                            <td><span class="badge bg-primary">@Model.Cantidad unidades</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cantidad Procesada:</strong></td>
+                            <td><span class="badge bg-warning text-dark">@Model.CantidadProcesada unidades</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pendiente por Procesar:</strong></td>
+                            <td><span class="badge bg-danger">@(Model.Cantidad - Model.CantidadProcesada) unidades</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Porcentaje Procesado:</strong></td>
+                            <td>
+                                @{
+                                    var porcentaje = Model.Cantidad > 0 ? ((Model.CantidadProcesada * 100) / Model.Cantidad) : 0;
+                                }
+                                <div class="progress" style="height: 1.5rem;">
+                                    <div class="progress-bar progress-bar-striped" 
+                                         role="progressbar" 
+                                         style="width: @porcentaje%"
+                                         aria-valuenow="@porcentaje" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        @porcentaje%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fecha de Compra:</strong></td>
+                            <td>@Model.FechaCompra.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Estado Actual:</strong></td>
+                            <td>
+                                @if (Model.Estado == "Pendiente")
+                                {
+                                    <span class="badge bg-warning text-dark fs-6">⏳ Pendiente</span>
+                                }
+                                else if (Model.Estado == "Procesado")
+                                {
+                                    <span class="badge bg-success fs-6">✅ Procesado</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger fs-6">❌ Cancelado</span>
+                                }
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-dark border-success">
+                <div class="card-header bg-success">
+                    <h5 class="mb-0">Cambiar Estado</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-action="ActualizarEstado">
+                        <input type="hidden" name="id" value="@Model.ProductoPendienteId" />
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Nuevo Estado</label>
+                            <select name="nuevoEstado" class="form-control" required>
+                                <option value="">- Seleccionar -</option>
+                                <option value="Pendiente" disabled="@(Model.Estado == "Pendiente")">⏳ Pendiente</option>
+                                <option value="Procesado" disabled="@(Model.Estado == "Procesado")">✅ Procesado (Devuelto)</option>
+                                <option value="Cancelado" disabled="@(Model.Estado == "Cancelado")">❌ Cancelado (Crédito)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">
+                            Actualizar Estado
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card bg-dark border-info mt-3">
+                <div class="card-header bg-info">
+                    <h5 class="mb-0">Información de Empresa</h5>
+                </div>
+                <div class="card-body">
+                    <p><small><strong>Empresa ID:</strong> @Model.EmpresaId</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFORMACIÓN ADICIONAL -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <h5>ℹ️ Significado de Estados</h5>
+                <ul class="mb-0">
+                    <li><strong>⏳ Pendiente:</strong> Producto comprado, aún en inventario, sin procesar</li>
+                    <li><strong>✅ Procesado:</strong> Producto ha sido devuelto (dañado)</li>
+                    <li><strong>❌ Cancelado:</strong> Producto procesado por nota de crédito</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

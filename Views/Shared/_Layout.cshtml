@@ -1,160 +1,147 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BoutiqueGT</title>
 
-<title>@ViewData["Title"] - BoutiqueGT</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ColegioPrivado.styles.css" asp-append-version="true" />
 
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/ColegioPrivado.styles.css" asp-append-version="true" />
+    <!-- ICONOS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<!-- ICONOS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<!-- ICONOS BOOTSTRAP -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
+    <!-- BOOTSTRAP ICONS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
 <body>
 
 <header>
+ <nav class="navbar navbar-expand-sm navbar-dark mb-3">
+    <div class="container-fluid">
 
-<nav class="navbar navbar-expand-sm navbar-dark mb-3">
-
-<div class="container-fluid">
-
-<a class="navbar-brand" asp-controller="Home" asp-action="Index">
-<i class="fa fa-shirt"></i> BoutiqueGT
-</a>
-
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-<span class="navbar-toggler-icon"></span>
-</button>
-
-<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-
-<ul class="navbar-nav flex-grow-1">
-
-<li class="nav-item">
-<a class="nav-link" asp-controller="Home" asp-action="Index">
-<i class="fa fa-home"></i> Inicio
-</a>
-</li>
-
-@{
-    var rol = Context.Session.GetString("Rol");
-}
-
-@if (!string.IsNullOrEmpty(rol) && rol.Contains("Admin"))
-{
-    <li class="nav-item">
-        <a class="nav-link" href="/Compras">
-            <i class="fa fa-cart-shopping"></i> Compras
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+            <i class="fa fa-shirt"></i> BoutiqueGT
         </a>
-    </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="/Devoluciones">
-            <i class="fa fa-rotate-left"></i> Devoluciones
-        </a>
-    </li>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <li class="nav-item">
-        <a class="nav-link" href="/Empresas">
-            <i class="fa fa-building"></i> Empresas
-        </a>
-    </li>
-}
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-@if (Context.Session.GetString("Usuario") != null)
-{
-<li class="nav-item">
-<a class="nav-link" asp-controller="Login" asp-action="CambiarPassword">
-<i class="fa fa-key"></i> Cambiar contraseña
-</a>
-</li>
+            <ul class="navbar-nav flex-grow-1">
 
-<li class="nav-item">
-<a class="nav-link text-danger" asp-controller="Login" asp-action="Logout">
-<i class="fa fa-sign-out-alt"></i> Cerrar sesión
-</a>
-</li>
-}
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">
+                        <i class="fa fa-home"></i> Inicio
+                    </a>
+                </li>
 
-</ul>
+                @{
+                    var rol = Context.Session.GetString("Rol");
+                }
 
-<!-- 👇 INFORMACIÓN DEL USUARIO -->
-<div style="color:white; font-weight:bold; margin-right:20px; text-align:right;">
+                @if (!string.IsNullOrEmpty(rol) && (rol.Contains("Admin") || rol.Contains("Soporte")))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Compras">
+                            <i class="fa fa-cart-shopping"></i> Compras
+                        </a>
+                    </li>
 
-@if (Context.Session.GetString("Usuario") != null)
-{
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Devoluciones">
+                            <i class="fa fa-rotate-left"></i> Devoluciones
+                        </a>
+                    </li>
 
-<div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Empresas">
+                            <i class="fa fa-building"></i> Empresas
+                        </a>
+                    </li>
 
-<i class="fa fa-user"></i>
-<strong>Bienvenido,</strong>
-@Context.Session.GetString("Usuario")
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Facturas" asp-action="Index">
+                            <i class="fa fa-file-invoice-dollar"></i> Facturas
+                        </a>
+                    </li>
 
-<br>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Producto" asp-action="Index">
+                            <i class="fa fa-box"></i> Productos
+                        </a>
+                    </li>
 
-<i class="fa fa-clock"></i>
-Último acceso:
-@Context.Session.GetString("UltimoAcceso")
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Proveedor" asp-action="Index">
+                            <i class="fa fa-truck"></i> Proveedores
+                        </a>
+                    </li>
+                }
 
-<span style="margin-left:10px; margin-right:10px;">|</span>
+                @if (Context.Session.GetString("Usuario") != null)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Login" asp-action="CambiarPassword">
+                            <i class="fa fa-key"></i> Cambiar contraseña
+                        </a>
+                    </li>
 
-<i class="fa fa-shield-alt"></i>
-@Context.Session.GetString("Rol")
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" asp-controller="Login" asp-action="Logout">
+                            <i class="fa fa-sign-out-alt"></i> Cerrar sesión
+                        </a>
+                    </li>
+                }
 
-</div>
+            </ul>
 
-}
+            <!-- INFO USUARIO -->
+            <div style="color:white; font-weight:bold; margin-right:20px; text-align:right;">
 
-</div>
+                @if (Context.Session.GetString("Usuario") != null)
+                {
+                    <div>
+                        <i class="fa fa-user"></i>
+                        <strong>Bienvenido,</strong>
+                        @Context.Session.GetString("Usuario")
 
-</div>
+                        <br>
 
-</div>
+                        <i class="fa fa-clock"></i>
+                        Último acceso:
+                        @Context.Session.GetString("UltimoAcceso")
 
-</nav>
+                        <span style="margin-left:10px; margin-right:10px;">|</span>
 
-</header>
+                        <i class="fa fa-shield-alt"></i>
+                        @Context.Session.GetString("Rol")
+                    </div>
+                }
 
+            </div>
 
-<div class="container">
+        </div>
+    </div>
+ </nav>
+ </header>
 
-<main role="main" class="pb-3">
+ <div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+ </div>
 
-@RenderBody()
-
-</main>
-
-</div>
-
-
-<footer class="border-top footer text-muted">
-
-<div class="container">
-
-&copy; 2026 - BoutiqueGT
-
-</div>
-
-</footer>
-
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="~/js/site.js"></script>
+ <script src="~/lib/jquery/dist/jquery.min.js"></script>
+ <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+ <script src="~/js/site.js"></script>
 
 @await RenderSectionAsync("Scripts", required: false)
 
-</body>
-
+ </body>
 </html>

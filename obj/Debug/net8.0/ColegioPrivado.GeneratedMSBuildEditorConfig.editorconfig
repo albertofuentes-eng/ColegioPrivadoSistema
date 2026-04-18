@@ -46,6 +46,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2b2x1Y2lvbmVzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Devoluciones/CreditosDisponibles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2b2x1Y2lvbmVzXENyZWRpdG9zRGlzcG9uaWJsZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Devoluciones/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV2b2x1Y2lvbmVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -76,6 +80,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Estudiantes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0dWRpYW50ZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Facturas/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFjdHVyYXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Facturas/FacturaPdf.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFjdHVyYXNcRmFjdHVyYVBkZi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Facturas/FacturaVista.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFjdHVyYXNcRmFjdHVyYVZpc3RhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Facturas/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFjdHVyYXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Home/AccesoDenegado.cshtml]
@@ -118,12 +138,28 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFlc3Ryb1xQYW5lbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/ProductosPendientes/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zUGVuZGllbnRlc1xEZXRhbGxlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/ProductosPendientes/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zUGVuZGllbnRlc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/ProductosPendientes/Resumen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zUGVuZGllbnRlc1xSZXN1bWVuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Producto/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Producto/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Producto/Lotes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9cTG90ZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Proveedores/Create.cshtml]
@@ -136,6 +172,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Proveedores/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Proveedor/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Proveedor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/fuent/OneDrive/Desktop/ColegioPrivado/Views/Secretaria/Panel.cshtml]

@@ -3,6 +3,7 @@ using ColegioPrivado.Data;
 using ColegioPrivado.Models;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 
 public class ComprasController : Controller
 {
@@ -27,6 +28,10 @@ public class ComprasController : Controller
 
         var compras = _context.Compras
             .Where(c => c.EmpresaId == empresaId)
+            .Include(c => c.Proveedor)
+            .Include(c => c.Detalles!)
+                .ThenInclude(d => d.Producto)
+            .OrderByDescending(c => c.CompraId)
             .ToList();
 
         return View(compras);
@@ -67,7 +72,25 @@ public class ComprasController : Controller
 
         int empresaId = HttpContext.Session.GetInt32("EmpresaId") ?? 1;
 
-        if (string.IsNullOrEmpty(DetalleJson))
+        // Validar que el proveedor exista
+        if (compra.ProveedorId <= 0)
+        {
+            ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+            ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
+            ModelState.AddModelError("", "Debe seleccionar un proveedor válido");
+            return View(compra);
+        }
+
+        var proveedorExiste = _context.Proveedores.Any(p => p.ProveedorId == compra.ProveedorId && p.EmpresaId == empresaId);
+        if (!proveedorExiste)
+        {
+            ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+            ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
+            ModelState.AddModelError("", "El proveedor seleccionado no existe");
+            return View(compra);
+        }
+
+        if (string.IsNullOrEmpty(DetalleJson) || DetalleJson.Trim() == "[]")
         {
             ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
             ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
@@ -97,24 +120,50 @@ public class ComprasController : Controller
 
             decimal total = 0;
 
-foreach (var item in detalles)
-{
-    if (item.PrecioUnitario <= 0)
-    {
-        ModelState.AddModelError("", "Precio unitario inválido");
-        ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
-        ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
-        return View(compra);
-    }
+            foreach (var item in detalles)
+            {
+                if (item.ProductoId <= 0)
+                {
+                    ModelState.AddModelError("", "Producto inválido en los detalles");
+                    ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+                    ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
+                    return View(compra);
+                }
 
-    total += item.PrecioUnitario * item.Cantidad;
-}
+                if (item.Cantidad <= 0)
+                {
+                    ModelState.AddModelError("", "Cantidad inválida");
+                    ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+                    ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
+                    return View(compra);
+                }
 
-            compra.Total = total;
+                if (item.PrecioUnitario <= 0)
+                {
+                    ModelState.AddModelError("", "Precio unitario inválido");
+                    ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+                    ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
+                    return View(compra);
+                }
+
+                total += item.PrecioUnitario * item.Cantidad;
+            }
+
+            compra.Total = total + compra.CostoEnvio;
 
             var proveedor = _context.Proveedores.Find(compra.ProveedorId);
+            if (proveedor == null)
+            {
+                ModelState.AddModelError("", "El proveedor no existe");
+                ViewBag.Proveedores = _context.Proveedores.Where(p => p.EmpresaId == empresaId).ToList();
+                ViewBag.Productos = _context.Productos.Where(p => p.EmpresaId == empresaId).ToList();
+                transaction.Rollback();
+                return View(compra);
+            }
 
-            if (proveedor != null && proveedor.CreditoDisponible > 0)
+            // Aplicar crédito disponible del proveedor
+            decimal totalAntesDeCredito = compra.Total;
+            if (proveedor.CreditoDisponible > 0)
             {
                 if (proveedor.CreditoDisponible >= compra.Total)
                 {
@@ -134,13 +183,48 @@ foreach (var item in detalles)
             foreach (var item in detalles)
             {
                 item.CompraId = compra.CompraId;
+                
+                // Validar que el producto exista
+                var producto = _context.Productos.FirstOrDefault(p => p.ProductoId == item.ProductoId && p.EmpresaId == empresaId);
+                if (producto == null)
+                {
+                    throw new Exception($"El producto con ID {item.ProductoId} no existe");
+                }
+
+                // Generar NumeroLote único por línea de compra
+                item.NumeroLote = $"LOTE-{compra.ProveedorId}-{compra.CompraId}-{DateTime.Now.Ticks}";
+                
                 _context.DetalleCompras.Add(item);
 
-                var producto = _context.Productos.Find(item.ProductoId);
-                if (producto != null)
+                // Crear registro de lote para trazabilidad
+                var loteCompra = new Lote
                 {
-                    producto.Stock += item.Cantidad;
-                }
+                    ProductoId = item.ProductoId,
+                    ProveedorId = compra.ProveedorId,
+                    NumeroLote = item.NumeroLote,
+                    PrecioCompra = item.PrecioUnitario,
+                    CantidadComprada = item.Cantidad,
+                    FechaCompra = compra.Fecha,
+                    EmpresaId = empresaId
+                };
+                _context.Lotes.Add(loteCompra);
+
+                // Actualizar stock del producto (global, no por lote)
+                producto.Stock += item.Cantidad;
+                producto.CodigoLote = "Lote-" + DateTime.Now.Ticks;
+                
+                // Crear registro de producto pendiente para rastreo
+                var productoPendiente = new ProductoPendiente
+                {
+                    ProductoId = item.ProductoId,
+                    CompraId = compra.CompraId,
+                    Cantidad = item.Cantidad,
+                    CantidadProcesada = 0,
+                    FechaCompra = compra.Fecha,
+                    Estado = "Pendiente",
+                    EmpresaId = empresaId
+                };
+                _context.ProductosPendientes.Add(productoPendiente);
             }
 
             _context.SaveChanges();

@@ -14,6 +14,9 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+var env = app.Environment;
+Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

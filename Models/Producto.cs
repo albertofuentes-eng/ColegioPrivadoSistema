@@ -16,5 +16,7 @@ public class Producto
     public bool Activo { get; set; }
     public bool EnOferta { get; set; } = false;
 
+    public string CodigoLote { get; set; } = "";
+
     public int EmpresaId { get; set; }
 }

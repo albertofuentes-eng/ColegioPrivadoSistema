@@ -1,31 +1,169 @@
 @model List<DevolucionCompra>
 
-<div class="container text-white">
-    <h2>Devoluciones</h2>
+<div class="container-fluid text-white mt-4">
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <h2>↩️ Devoluciones y Notas de Crédito</h2>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="/Devoluciones/Create" class="btn btn-success mb-3">+ Nueva Devolución</a>
+        </div>
+    </div>
 
-    <a href="/Devoluciones/Create" class="btn btn-success mb-3">
-        + Nueva Devolución
-    </a>
+    @if (Model?.Any() == true)
+    {
+        <div class="table-responsive">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Compra Relacionada</th>
+                        <th>Fecha</th>
+                        <th>Motivo</th>
+                        <th>Tipo</th>
+                        <th>Monto Crédito</th>
+                        <th>Productos</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in Model)
+                    {
+                        <tr>
+                            <td><strong>#@d.DevolucionCompraId</strong></td>
+                            <td><a href="#" class="text-info">#@d.CompraId</a></td>
+                            <td>@d.Fecha.ToString("dd/MM/yyyy")</td>
+                            <td>@d.Motivo</td>
+                            <td>
+                                @if (d.EsCredito)
+                                {
+                                    <span class="badge bg-success">💳 Crédito</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info">📦 Dañado</span>
+                                }
+                            </td>
+                            <td>
+                                @if (d.EsCredito && d.TotalCredito > 0)
+                                {
+                                    <span class="badge bg-warning text-dark">Q @d.TotalCredito.ToString("F2")</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">-</span>
+                                }
+                            </td>
+                            <td>
+                                <small>@d.Detalles?.Count() productos</small>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#devModal_@d.DevolucionCompraId">
+                                    Ver
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
-    <table class="table table-dark">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Compra</th>
-                <th>Fecha</th>
-                <th>Motivo</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var d in Model)
-            {
-                <tr>
-                    <td>@d.DevolucionCompraId</td>
-                    <td>#@d.CompraId</td>
-                    <td>@d.Fecha</td>
-                    <td>@d.Motivo</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        <!-- 🆕 MODALES DE DETALLES -->
+        @foreach (var d in Model)
+        {
+            <div class="modal fade" id="devModal_@d.DevolucionCompraId" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content bg-dark">
+                        <div class="modal-header border-info">
+                            <h5 class="modal-title">
+                                @if (d.EsCredito)
+                                {
+                                    <span>💳 Nota de Crédito #@d.DevolucionCompraId</span>
+                                }
+                                else
+                                {
+                                    <span>📦 Devolución #@d.DevolucionCompraId</span>
+                                }
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p><strong>Compra Relacionada:</strong> #@d.CompraId</p>
+                                    <p><strong>Fecha:</strong> @d.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
+                                    <p><strong>Motivo:</strong> @d.Motivo</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Tipo:</strong>
+                                        @if (d.EsCredito)
+                                        {
+                                            <span class="badge bg-success">Crédito</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-info">Dañado</span>
+                                        }
+                                    </p>
+                                    @if (d.EsCredito && d.TotalCredito > 0)
+                                    {
+                                        <p><strong>Total Crédito:</strong> <span class="badge bg-warning text-dark">Q @d.TotalCredito.ToString("F2")</span></p>
+                                    }
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <h6>Productos Devueltos:</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-dark">
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                            @if (!d.EsCredito)
+                                            {
+                                                <th>¿Dañado?</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var det in d.Detalles ?? new List<DetalleDevolucion>())
+                                        {
+                                            <tr>
+                                                <td>Producto ID: @det.ProductoId</td>
+                                                <td>@det.Cantidad</td>
+                                                @if (!d.EsCredito)
+                                                {
+                                                    <td>
+                                                        @if (det.Danado)
+                                                        {
+                                                            <span class="badge bg-danger">✓ SÍ</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge bg-secondary">✗ NO</span>
+                                                        }
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">
+            No hay devoluciones registradas
+        </div>
+    }
 </div>

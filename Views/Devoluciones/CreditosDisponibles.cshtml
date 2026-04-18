@@ -1,0 +1,153 @@
+@model List<Proveedor>
+
+@{
+    ViewData["Title"] = "Notas de Crédito Disponibles";
+}
+
+<div class="container-fluid text-white mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>💳 Notas de Crédito Disponibles</h2>
+            <p class="text-muted">Saldos a favor por devoluciones y notas de crédito registradas</p>
+        </div>
+    </div>
+
+    <!-- 📊 RESUMEN GENERAL -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card bg-dark border-info">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>Total Crédito Disponible</h5>
+                            <h3 class="text-success">
+                                Q @Model?.Where(p => p.CreditoDisponible > 0).Sum(p => p.CreditoDisponible).ToString("F2") ?? "0.00"
+                            </h3>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Proveedores con Crédito</h5>
+                            <h3 class="text-info">
+                                @Model?.Count(p => p.CreditoDisponible > 0) ?? 0
+                            </h3>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Crédito Promedio</h5>
+                            <h3 class="text-warning">
+                                @{
+                                    var conCredito = Model?.Where(p => p.CreditoDisponible > 0).Count() ?? 0;
+                                    var promedio = conCredito > 0 
+                                        ? Model?.Where(p => p.CreditoDisponible > 0).Average(p => p.CreditoDisponible) ?? 0 
+                                        : 0;
+                                }
+                                Q @promedio.ToString("F2")
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📋 TABLA DE PROVEEDORES CON CRÉDITO -->
+    @if (Model?.Any(p => p.CreditoDisponible > 0) == true)
+    {
+        <div class="table-responsive">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Teléfono</th>
+                        <th>Crédito Disponible</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var proveedor in Model.Where(p => p.CreditoDisponible > 0).OrderByDescending(p => p.CreditoDisponible))
+                    {
+                        <tr>
+                            <td>
+                                <strong>@proveedor.Nombre</strong>
+                                <br />
+                                <small class="text-muted">@proveedor.Direccion</small>
+                            </td>
+                            <td>@proveedor.Telefono</td>
+                            <td>
+                                <span class="badge bg-success fs-6">Q @proveedor.CreditoDisponible.ToString("F2")</span>
+                            </td>
+                            <td>
+                                @if (proveedor.CreditoDisponible > 1000)
+                                {
+                                    <span class="badge bg-danger">⚠️ Alto</span>
+                                }
+                                else if (proveedor.CreditoDisponible > 500)
+                                {
+                                    <span class="badge bg-warning text-dark">⏳ Moderado</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info">✓ Bajo</span>
+                                }
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#creditoModal_@proveedor.ProveedorId">
+                                    Usar Crédito
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- MODALES PARA USAR CRÉDITO -->
+        @foreach (var proveedor in Model.Where(p => p.CreditoDisponible > 0))
+        {
+            <div class="modal fade" id="creditoModal_@proveedor.ProveedorId" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-dark">
+                        <div class="modal-header border-info">
+                            <h5 class="modal-title">💳 Usar Crédito - @proveedor.Nombre</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-info">
+                                <strong>Crédito Disponible:</strong>
+                                <h4 class="text-success">Q @proveedor.CreditoDisponible.ToString("F2")</h4>
+                            </div>
+                            <p class="text-muted">
+                                ℹ️ Este crédito se puede usar automáticamente en la siguiente compra a este proveedor.
+                            </p>
+                            <p class="text-muted">
+                                💡 Si haces una compra por Q @proveedor.CreditoDisponible.ToString("F2"), se deducirá automáticamente.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="@Url.Action("Create", "Compras")" class="btn btn-success">Nueva Compra</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            ✓ No hay créditos disponibles. Todos están al día.
+        </div>
+    }
+
+    <hr />
+
+    <!-- 📊 HISTORIAL DE CAMBIOS (Opcional - Futura mejora) -->
+    <div class="mt-4">
+        <h5>💡 Información</h5>
+        <ul class="text-muted">
+            <li>El crédito se genera cuando registras una <strong>Nota de Crédito</strong></li>
+            <li>El crédito se utiliza automáticamente en la siguiente compra</li>
+            <li>El crédito está asociado específicamente al proveedor</li>
+            <li>No se puede transferir crédito entre proveedores</li>
+        </ul>
+    </div>
+</div>

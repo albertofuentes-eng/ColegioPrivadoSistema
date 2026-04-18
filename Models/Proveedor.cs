@@ -10,11 +10,9 @@ public class Proveedor
     [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
     public string Nombre { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "El teléfono es obligatorio")]
-    [Phone(ErrorMessage = "Teléfono no válido")]
+    [StringLength(100, ErrorMessage = "Máximo 100 caracteres")]
     public string Telefono { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "La dirección es obligatoria")]
     [StringLength(200, ErrorMessage = "Máximo 200 caracteres")]
     public string Direccion { get; set; } = string.Empty;
 

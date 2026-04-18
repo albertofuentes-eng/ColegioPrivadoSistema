@@ -15,4 +15,9 @@ public class DetalleCompra
     public Producto? Producto { get; set; }
 
     public decimal PrecioUnitario { get; set; }
+
+    // 🆕 Nuevos campos para rastreo de lotes y ofertas
+    public string NumeroLote { get; set; } = "";
+    
+    public bool EsOfertado { get; set; } = false;
 }

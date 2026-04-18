@@ -194,6 +194,9 @@ namespace ColegioPrivado.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompraId"));
 
+                    b.Property<decimal>("CostoEnvio")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("EmpresaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -228,6 +231,13 @@ namespace ColegioPrivado.Migrations
 
                     b.Property<int>("CompraId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("EsOfertado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NumeroLote")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PrecioCompra")
                         .HasColumnType("decimal(18,2)");
@@ -307,6 +317,76 @@ namespace ColegioPrivado.Migrations
                     b.ToTable("DevolucionCompras");
                 });
 
+            modelBuilder.Entity("Factura", b =>
+                {
+                    b.Property<int>("FacturaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FacturaId"));
+
+                    b.Property<int>("CompraId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NumeroFactura")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("FacturaId");
+
+                    b.HasIndex("CompraId");
+
+                    b.ToTable("Factura");
+                });
+
+            modelBuilder.Entity("Lote", b =>
+                {
+                    b.Property<int>("LoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoteId"));
+
+                    b.Property<int>("CantidadComprada")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaCompra")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NumeroLote")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PrecioCompra")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProveedorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoteId");
+
+                    b.HasIndex("ProductoId");
+
+                    b.HasIndex("ProveedorId");
+
+                    b.ToTable("Lote");
+                });
+
             modelBuilder.Entity("Producto", b =>
                 {
                     b.Property<int>("ProductoId")
@@ -317,6 +397,10 @@ namespace ColegioPrivado.Migrations
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
+
+                    b.Property<string>("CodigoLote")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
@@ -346,6 +430,45 @@ namespace ColegioPrivado.Migrations
                     b.HasKey("ProductoId");
 
                     b.ToTable("Producto");
+                });
+
+            modelBuilder.Entity("ProductoPendiente", b =>
+                {
+                    b.Property<int>("ProductoPendienteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoPendienteId"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CantidadProcesada")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompraId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaCompra")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductoPendienteId");
+
+                    b.HasIndex("CompraId");
+
+                    b.HasIndex("ProductoId");
+
+                    b.ToTable("ProductoPendiente");
                 });
 
             modelBuilder.Entity("Proveedor", b =>
@@ -379,7 +502,8 @@ namespace ColegioPrivado.Migrations
 
                     b.Property<string>("Telefono")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ProveedorId");
 
@@ -434,6 +558,55 @@ namespace ColegioPrivado.Migrations
                         .HasForeignKey("DevolucionCompraId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Factura", b =>
+                {
+                    b.HasOne("Compra", "Compra")
+                        .WithMany()
+                        .HasForeignKey("CompraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Compra");
+                });
+
+            modelBuilder.Entity("Lote", b =>
+                {
+                    b.HasOne("Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Proveedor", "Proveedor")
+                        .WithMany()
+                        .HasForeignKey("ProveedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Producto");
+
+                    b.Navigation("Proveedor");
+                });
+
+            modelBuilder.Entity("ProductoPendiente", b =>
+                {
+                    b.HasOne("Compra", "Compra")
+                        .WithMany()
+                        .HasForeignKey("CompraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Compra");
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("Compra", b =>

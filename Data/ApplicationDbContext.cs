@@ -19,6 +19,11 @@ namespace ColegioPrivado.Data
         public DbSet<Proveedor> Proveedores { get; set; }
         public DbSet<Compra> Compras { get; set; }
         public DbSet<DetalleCompra> DetalleCompras { get; set; }
+        public DbSet<Lote> Lotes { get; set; }
+        
+        public DbSet<ProductoPendiente> ProductosPendientes { get; set; }
+
+        public DbSet<Factura> Facturas { get; set; }
 
         public DbSet<DevolucionCompra> DevolucionCompras { get; set; }
         public DbSet<DetalleDevolucion> DetalleDevoluciones { get; set; }
@@ -50,12 +55,20 @@ namespace ColegioPrivado.Data
                 .Property(p => p.PrecioVenta)
                 .HasColumnType("decimal(18,2)");
 
+            modelBuilder.Entity<Factura>()
+                .Property(f => f.Total)
+                .HasColumnType("decimal(18,2)");
+
             modelBuilder.Entity<DevolucionCompra>()
                 .Property(d => d.TotalCredito)
                 .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<Proveedor>()
                 .Property(p => p.CreditoDisponible)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Lote>()
+                .Property(l => l.PrecioCompra)
                 .HasColumnType("decimal(18,2)");
 
             // 🔹 MULTIEMPRESA (IMPORTANTE)

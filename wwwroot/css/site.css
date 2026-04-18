@@ -53,6 +53,10 @@ label{
     color:white;
 }
 
+input, select, textarea, .form-control{
+    color:white;
+}
+
 input{
     border-radius:10px !important;
 }
@@ -97,6 +101,42 @@ font-weight:bold;
 
 .btn-login:hover{
 transform:scale(1.05);
+}
+
+/* TABLAS */
+
+.table {
+    color: white;
+}
+
+.table th, .table td {
+    border-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* ENLACES */
+
+a {
+    color: #00c6ff;
+}
+
+a:hover {
+    color: #0072ff;
+}
+
+/* TABLAS GENERALES */
+
+table {
+    color: white;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 8px;
+    text-align: left;
+    color: white;
 }
 
 input:focus{

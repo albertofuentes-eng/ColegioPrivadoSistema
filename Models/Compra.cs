@@ -10,6 +10,7 @@ public class Compra
     public DateTime Fecha { get; set; }
     public int ProveedorId { get; set; }
     public decimal Total { get; set; }
+    public decimal CostoEnvio { get; set; }
 
     public Proveedor? Proveedor { get; set; }
     public List<DetalleCompra>? Detalles { get; set; }
